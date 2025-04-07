@@ -1,21 +1,20 @@
 # Etapa 1: Build
-FROM node:20-alpine AS build
-WORKDIR /app
-
-COPY package*.json ./
-RUN npm install --omit=dev
-
-COPY . .
-
-# Etapa 2: Final (mais leve)
-FROM node:20-alpine
+FROM node:alpine
 WORKDIR /usr/src/app
 
-COPY --from=build /app ./
 
-RUN npm install -g pm2
+COPY package*.json ./
+
+RUN npm install
+
+# Define o usuário para rodar o contêiner (não root)
+USER node
+
+# Copia o restante dos arquivos da aplicação para o contêiner com as permissões corretas
+COPY --chown=node:node . .
 
 USER node
 
 EXPOSE 3000
+
 CMD ["node", "index.js"]
