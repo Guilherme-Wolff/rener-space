@@ -15,8 +15,6 @@ RUN npm install --save-dev @types/node-fetch@2
 
 RUN npm install
 
-# Instale o PM2 globalmente
-RUN npm install -g pm2
 
 # Crie o usuário node e mude a propriedade do diretório
 USER node
